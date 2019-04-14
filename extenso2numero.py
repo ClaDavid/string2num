@@ -1,8 +1,8 @@
-
+# Author: Clarissa David
 
 class Extenso2Numero(object):
-	def __init__(self, excluded_chars=""):
-		self.numDict = {
+    def __init__(self, excluded_chars=""):
+        self.numDict = {
 		    'zero': 0,
 		    'um': 1, 
 		    'dois': 2, 
@@ -41,18 +41,18 @@ class Extenso2Numero(object):
 	        'setecentos':700,
 	        'oitocentos':800,
 	        'novecentos':900
-		}
-		self.milharDict = {
+        }
+        self.milharDict = {
 		    'mil': 1000, 
 		    'milhão': 1000000,
 		    'milhões': 1000000,
 		    'bilhão': 1000000000,
 		    'bilhões': 1000000000
-		}
-		self.resultado = 0
-		self.grupo = 0
+        }
+        self.resultado = 0
+        self.grupo = 0
 
-	def converter(self, frase, resultado, grupo, numDict, milharDict):
+    def converter(self, frase, resultado, grupo, numDict, milharDict):
         for word in frase.split():            
             if(word in numDict):
                 grupo += numDict[word]
