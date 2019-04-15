@@ -1,5 +1,7 @@
 # Author: Clarissa David
 import re
+import enchant
+from enchant.checker import SpellChecker
 
 class Extenso2Numero(object):
     def __init__(self, excluded_chars=""):
@@ -53,6 +55,15 @@ class Extenso2Numero(object):
         self.resultado = 0
         self.grupo = 0
 
+    
+    def spellcorrect(self, frase):
+        checker_spell = enchant.checker.SpellChecker("pt_BR")
+        checker_spell.set_text(frase)
+        for err in checker_spell:
+        	suggestion = err.suggest()[0]
+        	err.replace(suggestion)
+        return checker_spell.get_text()
+    
     def converter(self, frase, resultado, grupo, numDict, milharDict):
         for word in frase.split():            
             if(word in numDict):
@@ -70,6 +81,8 @@ class Extenso2Numero(object):
         valor_convertido = [converter(valor_extenso) for valor_extenso in lista_currency]
         valor_join = ','.join(str(element) for element in valor_convertido)
         return valor_join
+
+
 
 
 	
