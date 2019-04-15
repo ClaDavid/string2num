@@ -3,90 +3,29 @@ import re
 import enchant
 from enchant.checker import SpellChecker
 
-class Extenso2Numero(object):
-    def __init__(self, excluded_chars=""):
-        self.numDict = {
-		    'zero': 0,
-		    'um': 1, 
-		    'dois': 2, 
-		    'três': 3, 
-		    'quatro': 4, 
-		    'cinco': 5, 
-		    'seis': 6, 
-		    'sete': 7, 
-		    'oito': 8,
-		    'nove': 9, 
-		    'dez': 10, 
-		    'onze': 11, 
-		    'doze': 12, 
-		    'treze': 13, 
-		    'quatorze': 14, 
-		    'quinze': 15,
-		    'dezesseis': 16, 
-		    'dezessete': 17, 
-		    'dezoito': 18, 
-		    'dezenove': 19,
-		    'vinte': 20, 
-		    'trinta': 30, 
-		    'quarenta': 40, 
-		    'cinquenta': 50, 
-		    'sessenta': 60, 
-		    'setenta': 70, 
-		    'oitenta': 80, 
-		    'noventa': 90,
-		    'cem': 100,
-	        'cento':100, 
-	        'duzentos':200,
-	        'trezentos':300,
-	        'quatrocentos':400,
-	        'quinhentos':500,
-	        'seiscentos':600,
-	        'setecentos':700,
-	        'oitocentos':800,
-	        'novecentos':900
-        }
-        self.milharDict = {
-		    'mil': 1000, 
-		    'milhão': 1000000,
-		    'milhões': 1000000,
-		    'bilhão': 1000000000,
-		    'bilhões': 1000000000
-        }
-        self.resultado = 0
-        self.grupo = 0
+def spellcorrect(string_extenso):
+    checker_spell = enchant.checker.SpellChecker("pt_BR")
+    checker_spell.set_text(string_extenso)
+    for err in checker_spell:
+    	suggestion = err.suggest()[0]
+    	err.replace(suggestion)
+    return checker_spell.get_text()
 
-    
-    def spellcorrect(self, frase):
-        checker_spell = enchant.checker.SpellChecker("pt_BR")
-        checker_spell.set_text(frase)
-        for err in checker_spell:
-        	suggestion = err.suggest()[0]
-        	err.replace(suggestion)
-        return checker_spell.get_text()
-    
-    def converter(self, frase, resultado, grupo, numDict, milharDict):
-        for word in frase.split():            
-            if(word in numDict):
-                grupo += numDict[word]
-            elif(word in milharDict):
-                resultado += (1 if grupo == 0 else grupo) * milharDict[word]
-                grupo = 0
-        resultado += grupo
-        return resultado
+def converter(string_extenso, numDict, milharDict, resultado, grupo):
+    for word in string_extenso.split():            
+        if(word in numDict):
+            grupo += numDict[word]
+        elif(word in milharDict):
+            resultado += (1 if grupo == 0 else grupo) * milharDict[word]
+            grupo = 0
+    resultado += grupo
+    return resultado
 
-    def currencyconverter(self, frase):
-        frase_clean = re.sub(r'\s+e\s+|centavo(s)?', ' ', frase)
-        frase_plural = re.sub(r'real', 'reais', frase_clean)
-        lista_currency = frase_plural.split("reais",1)
-        valor_convertido = [converter(valor_extenso) for valor_extenso in lista_currency]
-        valor_join = ','.join(str(element) for element in valor_convertido)
-        return valor_join
-
-
-
-
-	
-
-	
-
-
+def currencyconverter(string_extenso, numDict, milharDict, resultado, grupo):
+    string_numerico = spellcorrect(string_extenso)
+    frase_clean = re.sub(r'\s+e\s+|centavo(s)?', ' ', string_numerico)
+    frase_plural = re.sub(r'real', 'reais', frase_clean)
+    lista_currency = frase_plural.split("reais",1)
+    valor_convertido = [converter(valor_extenso, numDict, milharDict, resultado, grupo) for valor_extenso in lista_currency]
+    valor_join = ','.join(str(element) for element in valor_convertido)
+    return valor_join
