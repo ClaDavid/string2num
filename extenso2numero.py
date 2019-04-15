@@ -1,4 +1,5 @@
 # Author: Clarissa David
+import re
 
 class Extenso2Numero(object):
     def __init__(self, excluded_chars=""):
@@ -61,6 +62,14 @@ class Extenso2Numero(object):
                 grupo = 0
         resultado += grupo
         return resultado
+
+    def currencyconverter(self, frase):
+        frase_clean = re.sub(r'\s+e\s+|centavo(s)?', ' ', frase)
+        frase_plural = re.sub(r'real', 'reais', frase_clean)
+        lista_currency = frase_plural.split("reais",1)
+        valor_convertido = [converter(valor_extenso) for valor_extenso in lista_currency]
+        valor_join = ','.join(str(element) for element in valor_convertido)
+        return valor_join
 
 
 	
