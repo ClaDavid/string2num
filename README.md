@@ -15,5 +15,7 @@ from extenso2numero import *
 frase = "trinta e cinco reais e quarenta e três centavos"
 currencyconverter(frase, numDict, milharDict, resultado, grupo)
 ```
+## Exemplo de uso mostrando NLP
+![alt text](https://github.com/ClaDavid/string2num/blob/master/string2numexample.png "string2num example usage")
 
 ### EM CONSTRUÇÃO
