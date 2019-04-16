@@ -22,10 +22,13 @@ def converter(string_extenso, numDict, milharDict, resultado, grupo):
     return resultado
 
 def currencyconverter(string_extenso, numDict, milharDict, resultado, grupo):
-    string_numerico = spellcorrect(string_extenso)
-    frase_clean = re.sub(r'\s+e\s+|centavo(s)?', ' ', string_numerico)
+    #string_numerico = spellcorrect(string_extenso)
+    frase_clean = re.sub(r'\s+e\s+|centavo(s)?', ' ', string_extenso)
     frase_plural = re.sub(r'real', 'reais', frase_clean)
     lista_currency = frase_plural.split("reais",1)
     valor_convertido = [converter(valor_extenso, numDict, milharDict, resultado, grupo) for valor_extenso in lista_currency]
+    valor_convertido[1] = "{:02d}".format(valor_convertido[1]) #coloca 0 na frente de numeros com menos de 2 digitos
     valor_join = ','.join(str(element) for element in valor_convertido)
     return valor_join
+
+    
