@@ -63,7 +63,7 @@ def converter(string_extenso, numDict, milharDict, resultado, grupo):
     resultado += grupo
     return resultado
 
-def currencyconverter(string_extenso, numDict, milharDict, resultado, grupo):
+def currencyconverter(string_extenso, numDict, milharDict, resultado, grupo, simbolo=""):
     """
     Descricao: funcao responsavel por converter string por extenso para monetario
     Input:
@@ -101,6 +101,6 @@ def currencyconverter(string_extenso, numDict, milharDict, resultado, grupo):
     valor_convertido = [converter(valor_extenso, numDict, milharDict, resultado, grupo) for valor_extenso in lista_currency]
     valor_convertido[1] = "{:02d}".format(valor_convertido[1]) #coloca 0 na frente de numeros com menos de 2 digitos
     valor_join = ','.join(str(element) for element in valor_convertido)
-    return valor_join
+    return simbolo + valor_join
 
     
