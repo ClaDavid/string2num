@@ -23,6 +23,8 @@ def converter(string_extenso, numDict, milharDict, resultado, grupo):
 
 def currencyconverter(string_extenso, numDict, milharDict, resultado, grupo):
     #string_numerico = spellcorrect(string_extenso)
+    if("reais" not in string_extenso):
+        string_extenso = "zero reais e " + string_extenso
     frase_clean = re.sub(r'\s+e\s+|centavo(s)?', ' ', string_extenso)
     frase_plural = re.sub(r'real', 'reais', frase_clean)
     lista_currency = frase_plural.split("reais",1)
